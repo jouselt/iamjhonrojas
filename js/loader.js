@@ -1,6 +1,7 @@
-// Hide the loading overlay once the page is ready.
-// Fallback timeout guarantees the user is never trapped behind the spinner
-// if some heavy image is slow to fire window.load.
+// Hide the loading overlay as soon as the DOM is ready.
+// The model PNGs load as CSS backgrounds and are heavy; waiting for window.load
+// would trap the user behind the spinner. Hide on DOMContentLoaded + a safety
+// timeout so the page is never stuck.
 (function () {
   var loader = document.getElementById('loader');
   function hide() {
@@ -8,10 +9,11 @@
     loader.classList.add('is-hidden');
     setTimeout(function () { if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 600);
   }
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     hide();
   } else {
-    window.addEventListener('load', hide);
+    document.addEventListener('DOMContentLoaded', hide);
   }
-  setTimeout(hide, 3000);
+  // Absolute safety net
+  setTimeout(hide, 2500);
 })();
