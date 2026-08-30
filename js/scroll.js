@@ -47,8 +47,8 @@
         bg.style.transformOrigin = "center center";
       }
       if (!reduce && model) {
-        // Model is vertically centred via CSS translateY(-50%); we only ever add a
-        // horizontal slide-in (data-enter). So the transform must keep the -50% Y.
+        // Model is position:sticky (top:0) — vertically locked by CSS, so we only
+        // add a horizontal slide-in (data-enter). No -50% Y needed.
         const enter = ch.getAttribute("data-enter");
         let tx = 0;
         if (enter === "left") {
@@ -58,7 +58,7 @@
           const t = clamp01(p / 0.60);
           tx = lerp(window.innerWidth * 0.30, 0, t);
         }
-        model.style.transform = `translate3d(${tx.toFixed(1)}px, -50%, 0)`;
+        model.style.transform = `translate3d(${tx.toFixed(1)}px, 0, 0)`;
         // Dynamic drop-shadow grows with scroll progress -> sense of descending / depth.
         const drop = (p * 26).toFixed(1);
         model.style.setProperty("--model-drop", drop + "px");
