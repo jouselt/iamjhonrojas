@@ -52,11 +52,11 @@
         const enter = ch.getAttribute("data-enter");
         let tx = 0;
         if (enter === "left") {
-          const t = clamp01(p / 0.30);           // slide in across first 30% of the chapter
-          tx = lerp(-window.innerWidth * 0.45, 0, t);
+          const t = clamp01(p / 0.60);           // slide in slower (first 60% of chapter)
+          tx = lerp(-window.innerWidth * 0.30, 0, t);
         } else if (enter === "right") {
-          const t = clamp01(p / 0.30);
-          tx = lerp(window.innerWidth * 0.45, 0, t);
+          const t = clamp01(p / 0.60);
+          tx = lerp(window.innerWidth * 0.30, 0, t);
         }
         model.style.transform = `translate3d(${tx.toFixed(1)}px, -50%, 0)`;
         // Dynamic drop-shadow grows with scroll progress -> sense of descending / depth.
