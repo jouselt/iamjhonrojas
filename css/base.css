@@ -128,27 +128,52 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   height: 200vh;            /* scroll distance that drives the animation */
   min-height: 700px;
 }
-/* Two-layer parallax: bg (clean backdrop, slow) behind, model (alpha, fast) in front.
+/* Two-layer parallax: solid wall-colour backdrop (per chapter) + cut-out model (alpha, fixed).
    Desktop: text on one side, model on the other; sides alternate per chapter.
-   Mobile: model full-bleed, text floats up from the bottom. */
-.chapter__bg,
+   Mobile: model centred, text floats up with a scrim for legibility. */
+.chapter {
+  position: relative;
+  height: 200vh;
+  min-height: 700px;
+  /* wall tone set via --wall (JS from data-bg); animated light gradient on top */
+  background-color: var(--wall, #0B0B0F);
+  background-image: radial-gradient(120% 90% at 50% 28%, rgba(255,255,255,0.10), transparent 60%),
+                    linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.06) 50%, transparent 70%);
+  background-size: 100% 100%, 220% 100%;
+  background-repeat: no-repeat;
+  animation: wallLight 14s ease-in-out infinite alternate;
+}
+@keyframes wallLight {
+  from { background-position: 0% 0%, 0% 0%; }
+  to   { background-position: 0% 0%, 100% 0%; }
+}
 .chapter__model {
   position: sticky;
   top: 0;
   height: 100vh;
   width: 100%;
+  background-size: contain;        /* NEVER crops — full figure always visible */
+  background-position: center top;  /* face anchored top */
+  background-repeat: no-repeat;
+  z-index: 1;
+  transform-origin: center top;
+  will-change: transform;
+  /* dynamic drop-shadow (scroll.js modulates --shadow via --model-drop) */
+  filter: drop-shadow(0 calc(8px + var(--model-drop, 0px)) calc(18px + var(--model-drop, 0px) * 1.5) rgba(0,0,0,0.45));
+}
+/* Arch chapters: real backdrop (the arch wall) drifts slowly behind the fixed model.
+   Only used on .chapter--arch; everywhere else the wall is the animated gradient tone. */
+.chapter__bg {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
   background-size: cover;
-  background-position: center top;   /* face anchored top, never clips */
+  background-position: center;
   z-index: 0;
   will-change: transform;
 }
-.chapter__bg {
-  z-index: 0;
-}
-.chapter__model {
-  z-index: 1;
-  transform-origin: center top;
-}
+/* soft vignette so the model reads against the wall tone */
 .chapter__model::after {
   content: "";
   position: absolute;
@@ -157,7 +182,7 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   pointer-events: none;
 }
 
-/* TEXT — mobile default: floats up from bottom, centered */
+/* TEXT — mobile default: floats up from bottom, centred, with scrim */
 .chapter__text {
   position: relative;
   z-index: 2;
@@ -171,12 +196,15 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 .chapter__text-inner {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 calc(var(--space) * 3);
+  padding: calc(var(--space) * 4) calc(var(--space) * 3);
   width: 100%;
   opacity: var(--text-op, 0);
   transform: translateY(var(--text-ty, 60px));
   will-change: opacity, transform;
   pointer-events: auto;
+  /* scrim so text is legible over the model on mobile */
+  background: linear-gradient(to top, rgba(11,11,15,0.92) 0%, rgba(11,11,15,0.75) 55%, transparent 100%);
+  border-radius: 14px 14px 0 0;
 }
 .chapter__text-inner .bio__name { font-size: clamp(2.2rem, 6vw, 3.4rem); margin-bottom: calc(var(--space) * 2); }
 .chapter__text-inner .bio__lead { color: var(--text); font-size: 1.15rem; max-width: 58ch; }
@@ -184,31 +212,41 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 .chapter__text-inner .bio__sub { color: var(--accent); font-size: 1.3rem; margin: 0 0 calc(var(--space) * 1.5); }
 .chapter__text-inner .bio__text { color: var(--text-dim); max-width: 60ch; font-size: 1.1rem; }
 
-/* Desktop split: text on one half, model masked onto the other; alternates per chapter.
-   Reached at >=1024px so iPad (vertical ~768-834px CSS width) also gets the split. */
-@media (min-width: 1024px) {
+/* Desktop split (>=1024px): text on one half, model on the other.
+   Chapters with .chapter--text put the model on the RIGHT (text left). */
+@media (min-width: 820px) {
   .chapter__text {
     align-items: center;
     padding-bottom: 0;
   }
-  .chapter__text-inner {
-    max-width: 44%;
+  .chapter--text .chapter__text-inner {
+    max-width: 46%;
     margin: 0 0 0 calc(var(--space) * 6);
     transform: translateY(var(--text-ty, 0));
+    background: rgba(11,11,15,0.55);   /* scrim so text reads over arch backdrop */
+    border-radius: 14px;
+    padding: calc(var(--space) * 3);
+    backdrop-filter: blur(4px);
   }
-  .chapter__model {
+  .chapter--text .chapter__model {
+    background-size: contain;        /* NEVER crop — full figure, head + feet always in */
     background-position: right center;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 40%, #000 100%);
-            mask-image: linear-gradient(to right, transparent 0%, #000 40%, #000 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
   }
-  .chapter:nth-of-type(even) .chapter__text-inner {
-    margin: 0 calc(var(--space) * 6) 0 auto;
-    text-align: right;
+  /* arch chapters WITHOUT text: model centred + contain so it never crops (head/feet always in) */
+  .chapter--arch:not(.chapter--text) .chapter__model {
+    background-size: contain;
+    background-position: center center;
+    -webkit-mask-image: none;
+            mask-image: none;
   }
-  .chapter:nth-of-type(even) .chapter__model {
-    background-position: left center;
-    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 40%, #000 100%);
-            mask-image: linear-gradient(to left, transparent 0%, #000 40%, #000 100%);
+  /* chapters WITHOUT text and WITHOUT arch: model centred, full frame — contain (no crop) */
+  .chapter:not(.chapter--text):not(.chapter--arch) .chapter__model {
+    background-size: contain;
+    background-position: center top;
+    -webkit-mask-image: none;
+            mask-image: none;
   }
 }
 
@@ -251,6 +289,52 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 a:focus-visible, .hero__cta:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+/* CHAPTER NUMBER — small index badge so we can refer to chapters by number */
+.chapter__num {
+  position: absolute;
+  top: calc(var(--space) * 3);
+  left: calc(var(--space) * 3);
+  z-index: 3;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.82);
+  background: rgba(11,11,15,0.35);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 4px 12px;
+  backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+
+/* FLOATING CONTROLS */
+.fab {
+  position: fixed;
+  z-index: 50;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--text);
+  background: rgba(11,11,15,0.6);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.fab:hover { background: var(--accent); color: var(--bg); transform: scale(1.06); }
+.fab--top { top: calc(var(--space) * 3); right: calc(var(--space) * 3); }
+.fab--contact { bottom: calc(var(--space) * 3); left: calc(var(--space) * 3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .fab { transition: none; }
 }
 
 @media (max-width: 600px) {

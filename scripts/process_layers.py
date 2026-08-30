@@ -41,10 +41,12 @@ def make_model(src: Image.Image, mask: Image.Image) -> Image.Image:
     return cut
 
 
-def make_bg(src: Image.Image, mask: Image.Image) -> Image.Image:
-    # The backdrop is the ORIGINAL scene (wall/set) as-is — Jhon is NOT in it
-    # because the cut-out model layer sits on top, perfectly aligned at p=0.
-    # No inpaint, no blur: we want the real wall, not a smeared silhouette.
+def make_bg(src: Image.Image, mask: Image.Image, name: str) -> Image.Image:
+    # If a backdrop was supplied separately (arch.jpg / street_bg / stairs_bg), use it
+    # as the slow parallax layer. Otherwise fall back to the original photo tone.
+    arch = OUT / name / "arch.jpg"
+    if arch.exists():
+        return Image.open(arch).convert("RGB")
     return src.convert("RGB")
 
 
@@ -61,7 +63,7 @@ def main():
         print(f"  -> {name} ...", flush=True)
         src = Image.open(p)
         mask = mask_from(src)
-        bg = make_bg(src, mask)
+        bg = make_bg(src, mask, name)
         bg.save(dest / "bg.jpg", quality=84)
         model = make_model(src, mask)
         model.save(dest / "model.png")

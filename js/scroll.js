@@ -18,6 +18,11 @@
   }
   const bgColors = chapters.map((c) => hexToRgb(c.getAttribute("data-bg") || "#0B0B0F"));
 
+  // paint each chapter with its own wall tone up front (animated light gradient sits on top via CSS)
+  chapters.forEach((ch, i) => {
+    ch.style.setProperty("--wall", rgbToCss(bgColors[i]));
+  });
+
   let ticking = false;
   function update() {
     const vh = window.innerHeight;
@@ -35,25 +40,39 @@
       const text = ch.querySelector(".chapter__text-inner");
 
       if (!reduce && bg) {
-        // backdrop drifts slowly AND scales slightly (it's the slow layer)
+        // arch backdrop drifts slowly + scales (it's the slow layer behind the fixed model)
         const bgTy = lerp(0, vh * 0.08, p);
-        const bgScale = lerp(1, 1.08, p);
+        const bgScale = lerp(1.02, 1.12, p);
         bg.style.transform = `translate3d(0, ${bgTy.toFixed(1)}px, 0) scale(${bgScale.toFixed(3)})`;
+        bg.style.transformOrigin = "center center";
       }
       if (!reduce && model) {
-        // model moves faster but NEVER scales — so Jhon's head can't grow out of frame
-        const modelTy = lerp(0, vh * 0.18, p);
-        model.style.transform = `translate3d(0, ${modelTy.toFixed(1)}px, 0)`;
+        // Model is FIXED (no vertical transform) so Jhon's head can never be pushed out of frame.
+        // Chapters can opt into a horizontal slide-in via data-enter="left".
+        const enter = ch.getAttribute("data-enter");
+        let tx = 0;
+        if (enter === "left") {
+          const t = clamp01(p / 0.30);           // slide in across first 30% of the chapter
+          tx = lerp(-window.innerWidth * 0.45, 0, t);
+        } else if (enter === "right") {
+          const t = clamp01(p / 0.30);
+          tx = lerp(window.innerWidth * 0.45, 0, t);
+        }
+        model.style.transform = `translate3d(${tx.toFixed(1)}px, 0, 0)`;
+        // Dynamic drop-shadow grows with scroll progress -> sense of descending / depth.
+        const drop = (p * 26).toFixed(1);
+        model.style.setProperty("--model-drop", drop + "px");
       }
 
       if (text) {
-        // text: fade in around p=0.15..0.45, hold, fade out 0.6..0.9
+        // text: fade in early (0.05..0.30), hold long, fade out late (0.75..0.97)
+        // so it stays readable across most of the scroll instead of flashing by.
         let op, ty2;
-        if (p < 0.15) { op = 0; ty2 = 70; }
-        else if (p < 0.45) { const t = (p - 0.15) / 0.30; op = t; ty2 = lerp(70, 0, t); }
-        else if (p < 0.62) { op = 1; ty2 = 0; }
-        else if (p < 0.9) { const t = (p - 0.62) / 0.28; op = 1 - t; ty2 = lerp(0, -50, t); }
-        else { op = 0; ty2 = -50; }
+        if (p < 0.05) { op = 0; ty2 = 70; }
+        else if (p < 0.30) { const t = (p - 0.05) / 0.25; op = t; ty2 = lerp(70, 0, t); }
+        else if (p < 0.75) { op = 1; ty2 = 0; }
+        else if (p < 0.97) { const t = (p - 0.75) / 0.22; op = 1 - t; ty2 = lerp(0, -40, t); }
+        else { op = 0; ty2 = -40; }
         if (reduce) { op = 1; ty2 = 0; }
         text.style.setProperty("--text-op", op.toFixed(3));
         text.style.setProperty("--text-ty", ty2.toFixed(1) + "px");
