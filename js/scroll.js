@@ -65,14 +65,11 @@
       }
 
       if (text) {
-        // text: fade in early (0.05..0.30), hold long, fade out late (0.75..0.97)
-        // so it stays readable across most of the scroll instead of flashing by.
+        // text: quick fade-in at the very start, then STAYS visible to the end
+        // (per request: readable from beginning to end of the chapter, no fade-out).
         let op, ty2;
-        if (p < 0.05) { op = 0; ty2 = 70; }
-        else if (p < 0.30) { const t = (p - 0.05) / 0.25; op = t; ty2 = lerp(70, 0, t); }
-        else if (p < 0.75) { op = 1; ty2 = 0; }
-        else if (p < 0.97) { const t = (p - 0.75) / 0.22; op = 1 - t; ty2 = lerp(0, -40, t); }
-        else { op = 0; ty2 = -40; }
+        if (p < 0.06) { const t = p / 0.06; op = t; ty2 = lerp(40, 0, t); }
+        else { op = 1; ty2 = 0; }
         if (reduce) { op = 1; ty2 = 0; }
         text.style.setProperty("--text-op", op.toFixed(3));
         text.style.setProperty("--text-ty", ty2.toFixed(1) + "px");
