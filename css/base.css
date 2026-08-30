@@ -230,14 +230,14 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   }
   .chapter--text .chapter__model {
     background-size: contain;        /* NEVER crop — full figure, head + feet always in */
-    background-position: right center;
+    background-position: right top;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
             mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
   }
   /* arch chapters WITHOUT text: model centred + contain so it never crops (head/feet always in) */
   .chapter--arch:not(.chapter--text) .chapter__model {
     background-size: contain;
-    background-position: center center;
+    background-position: center top;
     -webkit-mask-image: none;
             mask-image: none;
   }
