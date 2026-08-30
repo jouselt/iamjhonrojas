@@ -247,6 +247,12 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
     -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
             mask-image: linear-gradient(to right, transparent 0%, #000 42%, #000 100%);
   }
+  /* arch chapters WITH text (03, 06): model reads too small vs the arch — grow it on desktop.
+     cover fills the frame (model dominates); head anchored upper-third so it isn't cut. */
+  .chapter--text.chapter--arch .chapter__model {
+    background-size: cover;
+    background-position: center 22%;
+  }
   /* arch chapters WITHOUT text: model centred + contain so it never crops (head/feet always in) */
   .chapter--arch:not(.chapter--text) .chapter__model {
     background-size: contain;
