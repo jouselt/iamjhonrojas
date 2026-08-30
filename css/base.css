@@ -52,7 +52,7 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;   /* keep the face in frame for top-cropped hero source */
+  object-position: center top;   /* no vertical shift — keep the face in frame */
 }
 .hero__media--fallback {
   background:
