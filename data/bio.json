@@ -1,0 +1,25 @@
+{
+  "name": "Jhon Rojas",
+  "tagline": "Modelo & Creador de Contenido",
+  "age": "",
+  "location": "Santiago de Chile",
+  "paragraph": "Soy Jhon Rojas, modelo y creador de contenido radicado en Santiago de Chile. Me caracterizo por ser espontáneo, expresivo y auténtico frente a la cámara. Me interesa desarrollarme en fashion, beauty, lifestyle y publicidad, explorando diferentes estilos y conceptos sin perder mi esencia. Actualmente estoy construyendo mi camino en el modelaje, abierto a nuevos proyectos, colaboraciones y oportunidades profesionales.",
+  "essence": "Mi esencia se basa en la autenticidad, la seguridad y la expresión. Me gusta mostrar diferentes facetas de mí y experimentar con estilos que me permitan sentirme cómodo y representar mi personalidad. Mi estilo combina lo moderno, versátil y natural, jugando con la moda, la belleza y los detalles que hacen que cada imagen tenga personalidad.",
+  "skills": [
+    "Adaptabilidad a distintos estilismos: desde looks naturales y minimalistas hasta propuestas editoriales de alto impacto.",
+    "Trabajo en equipo y bajo dirección artística, con actitud profesional, receptiva y colaborativa.",
+    "Experiencia en editorial, comercial, video, campañas digitales y pasarela.",
+    "Compromiso con puntualidad, preparación y cuidado de la imagen personal."
+  ],
+  "stats": [
+    { "label": "Ubicación", "value": "Santiago, CL" },
+    { "label": "Foco", "value": "Fashion · Beauty · Lifestyle" },
+    { "label": "Formatos", "value": "Editorial · Comercial · Pasarela" },
+    { "label": "Disponibilidad", "value": "Abierto a proyectos" }
+  ],
+  "contact": {
+    "email": "Johnrojasfranco@gmail.com",
+    "phone": "+56937582467",
+    "instagram": "https://instagram.com/Iamjhonrojas"
+  }
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jhon Rojas — Modelo & Creador de Contenido</title>
+  <meta name="description" content="Portafolio de Jhon Rojas, modelo y creador de contenido en Santiago de Chile. Fashion, beauty, lifestyle y publicidad." />
+  <link rel="preload" as="image" href="assets/img/hero.webp" type="image/webp" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+</head>
+<body>
+  <main>
+    <!-- HERO -->
+    <section id="inicio" class="hero" aria-label="Inicio">
+      <div class="hero__media">
+        <img class="hero__img" src="assets/img/hero.webp" srcset="assets/img/hero.jpg 1x"
+             alt="Jhon Rojas, imagen principal del portafolio"
+             onerror="this.style.display='none';this.parentElement.classList.add('hero__media--fallback')" />
+      </div>
+      <div class="hero__overlay">
+        <p class="hero__eyebrow" data-bio="tagline">Modelo &amp; Creador de Contenido</p>
+        <h1 class="hero__name" data-bio="name">Jhon Rojas</h1>
+        <p class="hero__loc" data-bio="location">Santiago de Chile</p>
+        <a class="hero__cta" href="#contacto">Trabajemos juntos</a>
+      </div>
+    </section>
+
+    <!-- BOOK: scroll-driven chapters (photo sticky + floating text + bg color shift) -->
+    <section id="galeria" class="book" aria-label="Book">
+
+      <!-- CHAPTER 1: Sobre mí -->
+      <section class="chapter" data-bg="#0B0B0F">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-01/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-01/model.png')"></div>
+        <div class="chapter__text">
+          <div class="chapter__text-inner">
+            <p class="section-kicker">Sobre mí</p>
+            <h2 class="bio__name" data-bio="name">Jhon Rojas</h2>
+            <p class="bio__lead" data-bio="paragraph"></p>
+            <ul class="bio__stats" data-bio="stats"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 2: Esencia -->
+      <section class="chapter" data-bg="#10100F">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-03/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-03/model.png')"></div>
+        <div class="chapter__text">
+          <div class="chapter__text-inner">
+            <h3 class="bio__sub">Mi esencia y estilo</h3>
+            <p class="bio__text" data-bio="essence"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 3: transición foto -->
+      <section class="chapter" data-bg="#0E0E12">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-05/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-05/model.png')"></div>
+      </section>
+
+      <!-- CHAPTER 4: Habilidades -->
+      <section class="chapter" data-bg="#0B0B0F">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-06/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-06/model.png')"></div>
+        <div class="chapter__text">
+          <div class="chapter__text-inner">
+            <h3 class="bio__sub">Habilidades y versatilidad</h3>
+            <ul class="bio__skills" data-bio="skills"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 5: foto -->
+      <section class="chapter" data-bg="#0D0D11">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-07/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-07/model.png')"></div>
+      </section>
+
+      <!-- CHAPTER 6: foto -->
+      <section class="chapter" data-bg="#0B0B0F">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-02/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-02/model.png')"></div>
+      </section>
+
+      <!-- CHAPTER 7: foto -->
+      <section class="chapter" data-bg="#0C0C0E">
+        <div class="chapter__bg" style="background-image:url('assets/layers/galeria-08/bg.jpg')"></div>
+        <div class="chapter__model" style="background-image:url('assets/layers/galeria-08/model.png')"></div>
+      </section>
+
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contacto" class="contact" aria-label="Contacto">
+      <div class="section-wrap contact__inner">
+        <p class="section-kicker">Contacto</p>
+        <h2 class="contact__title">¿Colaboramos?</h2>
+        <p class="contact__text">Estoy listo para colaborar en campañas que reflejen mi esencia y estilo.</p>
+        <a class="contact__mail" id="contactMail" href="#">email</a>
+        <ul class="contact__social" id="contactSocial"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>© <span id="year"></span> Jhon Rojas — Santiago de Chile</p>
+  </footer>
+
+  <script src="js/bio.js"></script>
+  <script src="js/scroll.js"></script>
+</body>
+</html>

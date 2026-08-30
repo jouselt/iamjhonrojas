@@ -1,0 +1,48 @@
+/* Self-hosted Sora (no runtime network calls) */
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/sora-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/sora-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/sora-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/sora-700.woff2") format("woff2");
+}
+
+:root {
+  --bg: #0B0B0F;
+  --surface: #16161C;
+  --text: #F5F5F7;
+  --text-dim: #A1A1A8;
+  --accent: #C9A36A;
+  --border: #26262E;
+  --space: 8px;
+  --radius: 14px;
+  --maxw: 1200px;
+  --font: "Sora", "Helvetica Neue", Helvetica, "Inter", system-ui, sans-serif;
+  --font-display: "Sora", "Helvetica Neue", Helvetica, system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --motion: 0; }
+}
+:root { --motion: 1; }

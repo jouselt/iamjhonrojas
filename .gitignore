@@ -1,0 +1,15 @@
+# Python environment (rembg / onnxruntime / pillow installed via nix-shell, not committed)
+.pylibs/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local only
+.venv/
+node_modules/
+*.log
+
+# internal skill/agent metadata
+.atl/
