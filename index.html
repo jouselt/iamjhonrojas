@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="css/base.css" />
 </head>
 <body>
+  <!-- Loading overlay: three bouncing dots until the page (images) finish loading -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__dots"><span></span><span></span><span></span></div>
+  </div>
   <main>
     <!-- HERO -->
     <section id="inicio" class="hero" aria-label="Inicio">
@@ -94,22 +98,16 @@
         <div class="chapter__stage"><div class="chapter__model" style="background-image:url('assets/layers/galeria-02/model.png')"></div></div>
       </section>
 
-      <!-- CHAPTER 8: foto (fondo blanco roto, coincide con la sesión de la silla) -->
-      <section class="chapter" data-bg="#F2F0EC">
-        <span class="chapter__num">08</span>
-        <div class="chapter__stage"><div class="chapter__model" style="background-image:url('assets/layers/galeria-08/model.png')"></div></div>
-      </section>
-
-      <!-- CHAPTER 9: street (fondo calle, parallax) — modelo entra desde la izquierda -->
+      <!-- CHAPTER 8: street (fondo calle, parallax) — modelo entra desde la izquierda -->
       <section class="chapter chapter--arch" data-enter="left" data-bg="#3A3A38">
-        <span class="chapter__num">09</span>
+        <span class="chapter__num">08</span>
         <div class="chapter__bg" style="background-image:url('assets/layers/galeria-09/arch.jpg')"></div>
         <div class="chapter__stage"><div class="chapter__model" style="background-image:url('assets/layers/galeria-09/model.png')"></div></div>
       </section>
 
-      <!-- CHAPTER 10: stairs (fondo escaleras, parallax) — modelo entra desde la derecha -->
+      <!-- CHAPTER 9: stairs (fondo escaleras, parallax) — modelo entra desde la derecha -->
       <section class="chapter chapter--arch" data-enter="right" data-bg="#5A5248">
-        <span class="chapter__num">10</span>
+        <span class="chapter__num">09</span>
         <div class="chapter__bg" style="background-image:url('assets/layers/galeria-10/arch.jpg')"></div>
         <div class="chapter__stage"><div class="chapter__model" style="background-image:url('assets/layers/galeria-10/model.png')"></div></div>
       </section>
