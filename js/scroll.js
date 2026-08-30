@@ -40,25 +40,22 @@
       const text = ch.querySelector(".chapter__text-inner");
 
       if (!reduce && bg) {
-        // arch backdrop drifts slowly + scales (it's the slow layer behind the fixed model)
-        const bgTy = lerp(0, vh * 0.08, p);
-        const bgScale = lerp(1.02, 1.12, p);
-        bg.style.transform = `translate3d(0, ${bgTy.toFixed(1)}px, 0) scale(${bgScale.toFixed(3)})`;
+        // arch backdrop drifts from TOP (not sides) — consistent parallax for 08/09 too.
+        // 08/09 get a faster, more pronounced vertical drift per Jhon's request.
+        const fast = (ch.getAttribute("data-enter") === "left" || ch.getAttribute("data-enter") === "right");
+        const bgTy = lerp(0, vh * (fast ? 0.22 : 0.08), p);
+        const bgScale = lerp(fast ? 1.06 : 1.02, fast ? 1.30 : 1.12, p);
+        bg.style.transform = `translate3d(0, ${(-bgTy).toFixed(1)}px, 0) scale(${bgScale.toFixed(3)})`;
         bg.style.transformOrigin = "center center";
       }
       if (!reduce && model) {
-        // Model is position:sticky (top:0) — vertically locked by CSS, so we only
-        // add a horizontal slide-in (data-enter). No -50% Y needed.
-        const enter = ch.getAttribute("data-enter");
-        let tx = 0;
-        if (enter === "left") {
-          const t = clamp01(p / 0.60);           // slide in slower (first 60% of chapter)
-          tx = lerp(-window.innerWidth * 0.30, 0, t);
-        } else if (enter === "right") {
-          const t = clamp01(p / 0.60);
-          tx = lerp(window.innerWidth * 0.30, 0, t);
-        }
-        model.style.transform = `translate3d(${tx.toFixed(1)}px, 0, 0)`;
+        // Model: enters from the TOP (translateY -25vh -> 0) in the first 40% of the
+        // chapter for ALL chapters (consistency — no more side slides), then grows
+        // (scale 1 -> 1.15) as you scroll down, before the next chapter arrives.
+        const enterT = clamp01(p / 0.40);
+        const ty = lerp(-window.innerHeight * 0.25, 0, enterT);
+        const scale = lerp(1.0, 1.15, p);
+        model.style.transform = `translate3d(0, ${ty.toFixed(1)}px, 0) scale(${scale.toFixed(3)})`;
         // Dynamic drop-shadow grows with scroll progress -> sense of descending / depth.
         const drop = (p * 26).toFixed(1);
         model.style.setProperty("--model-drop", drop + "px");

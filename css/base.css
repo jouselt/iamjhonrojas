@@ -135,6 +135,7 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   position: relative;
   height: 200vh;
   min-height: 700px;
+  overflow: clip;                 /* tight bounds: nothing bleeds into the next chapter */
   /* wall tone set via --wall (JS from data-bg); animated light gradient on top */
   background-color: var(--wall, #0B0B0F);
   background-image: radial-gradient(120% 90% at 50% 28%, rgba(255,255,255,0.10), transparent 60%),
@@ -148,16 +149,18 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
   to   { background-position: 0% 0%, 100% 0%; }
 }
 /* Sticky stage keeps the model centred in the viewport across the 200vh chapter,
-   while the .chapter__bg (absolute) drifts behind via parallax. */
+   while the .chapter__bg (absolute) drifts behind via parallax.
+   Both .chapter__model and .chapter__text live INSIDE the stage so they move together. */
 .chapter__stage {
-  position: relative;
-  height: 200vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
   width: 100%;
   z-index: 1;
 }
 .chapter__model {
-  position: sticky;
-  top: 0;
+  position: absolute;
+  inset: 0;
   height: 100vh;
   width: 100%;
   background-size: cover;          /* fill the frame — model reads larger */
@@ -192,14 +195,13 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 
 /* TEXT — mobile default: floats up from bottom, centred, with scrim */
 .chapter__text {
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10vh;
   z-index: 2;
-  position: sticky;
-  top: 0;
-  height: 100vh;
   display: flex;
-  align-items: flex-end;
-  padding-bottom: 12vh;
+  justify-content: center;
   pointer-events: none;
 }
 .chapter__text-inner {
@@ -226,7 +228,9 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 @media (min-width: 820px) {
   .chapter__text {
     align-items: center;
-    padding-bottom: 0;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
   }
   .chapter--text .chapter__text-inner {
     max-width: 46%;
@@ -261,7 +265,7 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-
 
 @media (prefers-reduced-motion: reduce) {
   .chapter__bg,
-  .chapter__model { transform: translateY(-50%) !important; will-change: auto; }
+  .chapter__model { transform: none !important; will-change: auto; }
   .chapter__text-inner { opacity: 1 !important; transform: none !important; }
 }
 
